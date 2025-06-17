@@ -1,0 +1,26 @@
+.container {
+  padding: 20px;
+}
+
+.add-button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #0f9d58;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  th {
+    background-color: #f0f0f0;
+  }
+}

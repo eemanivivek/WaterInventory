@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Inventory List</h2>
+  <button class="add-button" [routerLink]="['/add-product']">+ Add New Product</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Capacity (Liters)</th>
+        <th>Last Updated</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.capacity }}</td>
+        <td>{{ product.lastUpdated }}</td>
+        <td>
+          <button (click)="deleteProduct(product.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
