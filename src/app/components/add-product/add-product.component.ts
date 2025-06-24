@@ -21,12 +21,22 @@ export class AddProductComponent {
   };
  
   constructor(private productService: ProductService, private router: Router) {}
-
+  
   addProduct() {
   this.product.lastUpdated = new Date().toISOString();
-  this.productService.addProduct(this.product).subscribe(() => {
-    alert('Product added successfully!');
-    this.router.navigate(['/']);
+  console.log('Submitting product:', this.product);
+
+  this.productService.addProduct(this.product).subscribe({
+    next: (res) => {
+      console.log('API call successful:', res);
+      alert('Product added successfully!');
+      this.router.navigate(['/']);
+    },
+    error: (err) => {
+      console.error('API call failed:', err);
+    }
   });
 }
+
+
 }

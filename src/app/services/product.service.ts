@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Product {
   id: number;
@@ -13,37 +14,22 @@ export interface Product {
   providedIn: 'root'
 })
 export class ProductService {
-  private products: Product[] = [];
-  private productsSubject = new BehaviorSubject<Product[]>([]);
+  private apiUrl = 'http://localhost:5001/api/Product';
 
-  constructor() {
-    this.productsSubject.next(this.products);
+  constructor(private http: HttpClient) {
+    console.log('ProductService created — HttpClient:', this.http)
   }
 
-getProducts(): Observable<Product[]> {
-  console.log('getProducts called — current products:', this.products);
-  return this.productsSubject.asObservable();
-}
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
+  }
 
-addProduct(product: Product): Observable<void> {
-  product.id = this.products.length > 0 ? Math.max(...this.products.map(p => p.id)) + 1 : 1;
-  this.products.push(product);
-  console.log('After adding, products array is now:', this.products);
-  this.productsSubject.next([...this.products]);
-  return new Observable(observer => {
-    observer.next();
-    observer.complete();
-  });
-}
-
-
+  addProduct(product: Product): Observable<void> {
+    console.log('ProductService sending product to API:', product);
+    return this.http.post<void>(this.apiUrl, product);
+  }
 
   deleteProduct(id: number): Observable<void> {
-    this.products = this.products.filter(p => p.id !== id);
-    this.productsSubject.next([...this.products]);
-    return new Observable(observer => {
-      observer.next();
-      observer.complete();
-    });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
